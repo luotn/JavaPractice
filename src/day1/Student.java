@@ -1,27 +1,17 @@
-public class Student implements Human{
-    private final String NAME;
-    private final int AGE;
+package day1;
+
+public class Student extends Human{
+
     public int STUDYOMETER;
 
     public Student(String name, int age) {
-        this.NAME = name;
-        this.AGE = age;
+        super(name, age);
         this.STUDYOMETER = 0;
-    }
-
-    @Override
-    public String toString() {
-        return this.NAME;
     }
 
     @Override
     public void sayHi(Human other) {
         System.out.println("Hi " + other + "! I'm " + this.NAME);
-    }
-
-    @Override
-    public int getAge() {
-        return this.AGE;
     }
 
     public int getStudy() {
