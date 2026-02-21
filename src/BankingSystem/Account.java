@@ -16,9 +16,7 @@ public class Account {
     }
 
     public void withdraw(Money amount) throws  IllegalArgumentException {
-        Money resultBalance = this.balance.subtract(amount);
-        if (resultBalance.isNegative()) throw new IllegalArgumentException("Insufficient funds.");
-        this.balance = resultBalance;
+        this.balance = this.balance.subtract(amount);
     }
 
     public BigDecimal getBalance() {

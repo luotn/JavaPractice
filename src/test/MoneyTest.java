@@ -24,6 +24,13 @@ class MoneyTest {
     }
 
     @Test
+    void shouldThrowCreateNegative() {
+        assertThrows(IllegalArgumentException.class, () ->
+            new Money(BigDecimal.valueOf(-1, 9))
+        );
+    }
+
+    @Test
     void shouldHaveToString() {
         Money subject = new Money(BigDecimal.valueOf(99, 2));
         assertEquals("0.99", subject.toString());
@@ -39,32 +46,23 @@ class MoneyTest {
     void sameAmountShouldEqual() {
         Money subject1 = new Money(BigDecimal.valueOf(9999999, 7));
         Money subject2 = new Money(BigDecimal.valueOf(9999999, 7));
-        assertTrue(subject1.equals(subject2));
+        assertEquals(subject1, subject2);
     }
 
     @Test
     void differentAmountShouldNOTEqual() {
         Money subject1 = new Money(BigDecimal.valueOf(9999999, 7));
         Money subject2 = new Money(BigDecimal.valueOf(9999998, 7));
-        assertFalse(subject1.equals(subject2));
+        assertNotEquals(subject1, subject2);
     }
 
     @Test
     void shouldThrowExceptionWhenAddingZero() {
         Money subject1 = new Money(BigDecimal.ONE);
         Money subject2 = new Money(BigDecimal.ZERO);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject1.add(subject2);
-        });
-    }
-
-    @Test
-    void shouldThrowExceptionWhenAddingNegative() {
-        Money subject1 = new Money(BigDecimal.ONE);
-        Money subject2 = new Money(BigDecimal.valueOf(-1));
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject1.add(subject2);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            subject1.add(subject2)
+        );
     }
 
     @Test
@@ -72,16 +70,16 @@ class MoneyTest {
         Money subject1 = new Money(BigDecimal.ONE);
         Money subject2 = new Money(BigDecimal.ONE);
         Money sum = subject1.add(subject2);
-        assertTrue(new Money(BigDecimal.TWO).equals(sum));
+        assertEquals(new Money(BigDecimal.TWO), sum);
     }
 
     @Test
     void shouldThrowExceptionWhenSubtractingZero() {
         Money subject1 = new Money(BigDecimal.ONE);
         Money subject2 = new Money(BigDecimal.ZERO);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject1.subtract(subject2);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            subject1.subtract(subject2)
+        );
     }
 
     @Test
@@ -89,7 +87,7 @@ class MoneyTest {
         Money subject1 = new Money(BigDecimal.valueOf(9999999, 7));
         Money subject2 = new Money(BigDecimal.valueOf(9999998, 7));
         Money result = subject1.subtract(subject2);
-        assertTrue(new Money(BigDecimal.valueOf(1, 7)).equals(result));
+        assertEquals(new Money(BigDecimal.valueOf(1, 7)), result);
     }
 
     @Test
@@ -97,7 +95,7 @@ class MoneyTest {
         Money subject1 = new Money(BigDecimal.valueOf(9999998, 7));
         Money subject2 = new Money(BigDecimal.valueOf(9999998, 7));
         Money result = subject1.subtract(subject2);
-        assertTrue(new Money(BigDecimal.ZERO).equals(result));
+        assertEquals(new Money(BigDecimal.ZERO), result);
     }
 
     @Test
@@ -105,7 +103,7 @@ class MoneyTest {
         Money subject1 = new Money(BigDecimal.valueOf(1, 1));
         Money subject2 = new Money(BigDecimal.valueOf(2, 1));
         Money sum = subject1.add(subject2);
-        assertTrue(new Money(BigDecimal.valueOf(3, 1)).equals(sum));
+        assertEquals(new Money(BigDecimal.valueOf(3, 1)), sum);
     }
 
     @Test
@@ -114,19 +112,6 @@ class MoneyTest {
         for (int i = 0; i < 10; i++) {
             subject = subject.add(new Money(BigDecimal.valueOf(1, 1)));
         }
-        assertTrue(new Money(BigDecimal.valueOf(11, 1)).equals(subject));
+        assertEquals(new Money(BigDecimal.valueOf(11, 1)), subject);
     }
-
-    @Test
-    void shouldOneNotNegative() {
-        Money subject = new Money(BigDecimal.ONE);
-        assertFalse(subject.isNegative());
-    }
-
-    @Test
-    void shouldNegativeBeNegative() {
-        Money subject = new Money(BigDecimal.valueOf(-1));
-        assertTrue(subject.isNegative());
-    }
-
 }

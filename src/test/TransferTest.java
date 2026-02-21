@@ -15,7 +15,6 @@ class TransferTest {
     Account nullAccount;
     Money oneUnit;
     Money zeroUnit;
-    Money negativeUnit;
 
     @BeforeEach
     void setUp() {
@@ -23,7 +22,6 @@ class TransferTest {
         oneAccount = new Account(2L, new Money(BigDecimal.ONE));
         oneUnit = new Money(BigDecimal.ONE);
         zeroUnit = new Money(BigDecimal.ZERO);
-        negativeUnit = new Money(BigDecimal.valueOf(-1, 0));
     }
 
     @Test
@@ -36,54 +34,45 @@ class TransferTest {
     void shouldNormalTransferBalanceCorrect() {
         Transfer subject = new Transfer(oneAccount, emptyAccount, oneUnit);
         subject.execute();
-        assertTrue(oneAccount.getBalance().compareTo(BigDecimal.ZERO) == 0);
-        assertTrue(emptyAccount.getBalance().compareTo(BigDecimal.ONE) == 0);
+        assertEquals(0, oneAccount.getBalance().compareTo(BigDecimal.ZERO));
+        assertEquals(0, emptyAccount.getBalance().compareTo(BigDecimal.ONE));
     }
 
     @Test
     void shouldInsufficientFundsThrow() {
         Transfer subject = new Transfer(emptyAccount, oneAccount, oneUnit);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject.execute();
-        });
+        assertThrows(IllegalArgumentException.class, subject::execute);
     }
 
     @Test
     void shouldNullOriginThrow() {
         Transfer subject = new Transfer(nullAccount, oneAccount, oneUnit);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject.execute();
-        });
+        assertThrows(IllegalArgumentException.class, subject::execute);
     }
 
     @Test
     void shouldNullTargetThrow() {
         Transfer subject = new Transfer(emptyAccount, nullAccount, oneUnit);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject.execute();
-        });
+        assertThrows(IllegalArgumentException.class, subject::execute);
     }
 
     @Test
     void shouldSelfTransferThrow() {
         Transfer subject = new Transfer(oneAccount, oneAccount, oneUnit);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject.execute();
-        });
+        assertThrows(IllegalArgumentException.class, subject::execute);
     }
 
     @Test
     void shouldZeroUnitTransferThrow() {
         Transfer subject = new Transfer(emptyAccount, oneAccount, zeroUnit);
-        assertThrows(IllegalArgumentException.class, () -> {
-            subject.execute();
-        });
+        assertThrows(IllegalArgumentException.class, subject::execute);
     }
 
     @Test
-    void shouldNegativeUnitTransferThrow() {
-        Transfer subject = new Transfer(emptyAccount, oneAccount, negativeUnit);
+    void shouldThrowAttemptNegativeUnitTransfer() {
         assertThrows(IllegalArgumentException.class, () -> {
+            Money negativeUnit = new Money(BigDecimal.valueOf(-1, 1));
+            Transfer subject = new Transfer(emptyAccount, oneAccount, negativeUnit);
             subject.execute();
         });
     }
