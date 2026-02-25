@@ -1,4 +1,4 @@
-package test;
+package test.BankingSystemTests;
 
 import BankingSystem.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TransferTest {
+class TransferRecordTest {
 
     Account emptyAccount;
     Account oneAccount;

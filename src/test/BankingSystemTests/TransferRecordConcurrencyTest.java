@@ -1,4 +1,4 @@
-package test;
+package test.BankingSystemTests;
 
 import BankingSystem.*;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TransferConcurrencyTest {
+public class TransferRecordConcurrencyTest {
     private static final int THREAD_COUNT = 32;
     private static final int TRANSFERS_PER_THREAD = 100000;
     private static final int ACCOUNT_COUNT = 100;

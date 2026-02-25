@@ -8,6 +8,6 @@ public class Playground {
         double sum = num1 + num2;
         System.out.println(sum);
 
-        System.out.println(BigDecimal.valueOf(9999998, 7));
+        System.out.println((BigDecimal) null);
     }
 }
